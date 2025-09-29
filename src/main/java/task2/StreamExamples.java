@@ -35,8 +35,9 @@ public class StreamExamples {
         return list
                 .stream()
                 .sorted(Comparator.reverseOrder())
+                .limit(3)
                 .toList()
-                .get(2);
+                .getLast();
     }
 
     public static int getUniqueThirdMax(List<Integer> list){
@@ -44,8 +45,9 @@ public class StreamExamples {
                 .stream()
                 .sorted(Comparator.reverseOrder())
                 .distinct()
+                .limit(3)
                 .toList()
-                .get(2);
+                .getLast();
     }
 
     public static List<String> getOldestEmployees(List<Employee> list){
@@ -71,7 +73,7 @@ public class StreamExamples {
         return list
                 .stream()
                 .max(Comparator.comparing(String::length))
-                .get();
+                .orElseThrow();
     }
 
     public static Map<String, Long> getWordsCount(String string){
@@ -84,13 +86,11 @@ public class StreamExamples {
     }
 
     public static void printSortedStrings(List<String> strings){
-        List<String> result = strings
-                .stream()
-                .sorted(Comparator.comparing(String::length))
-                .toList();
-        for(String string: result){
-            System.out.println(string);
-        }
+        strings
+            .stream()
+            .sorted(Comparator.comparing(String::length))
+            .toList()
+            .forEach(System.out::println);
     }
 
     public static String getLongestWordFromMassive(String[] strings){
