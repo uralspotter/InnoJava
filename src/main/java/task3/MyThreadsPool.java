@@ -8,7 +8,7 @@ public class MyThreadsPool {
 
     private int poolSize;
     private List<Thread> threads;
-    private boolean isStopped = true;
+    private volatile boolean isStopped;
     private LinkedList<Runnable> tasks;
 
     MyThreadsPool(int poolSize){
@@ -25,7 +25,12 @@ public class MyThreadsPool {
         if(this.isStopped){
             throw new IllegalStateException();
         }
-        tasks.add(task);
+        if(poolSize == tasks.size()){
+            tasks.getFirst().run();
+            tasks.add(task);
+        }else{
+            task.run();
+        }
     }
 
     public void shutdown(){
